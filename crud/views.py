@@ -15,3 +15,10 @@ class TasksViewSet(viewsets.ModelViewSet):
   filterset_fields = ['status']
   search_fields = ['title']
   pagination_class = PageNumberPagination
+  
+  def destroy(self, request, *args, **kwargs):
+    instance = self.get_object()
+    if instance:
+        instance.delete()
+        return Response({'message': 'Tarefa excluída com sucesso'}, status=status.HTTP_204_NO_CONTENT)
+    return Response({'error': 'Tarefa não encontrada'}, status=status.HTTP_404_NOT_FOUND)
